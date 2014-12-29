@@ -1,0 +1,76 @@
+{% extends "core/base.html" %}
+
+{% block title %}Location Groups{% endblock %}
+
+{% block heading %}
+    Location Groups
+    <span class="info-spot">
+        <span class="icon-info-round"></span>
+        <span class="info-bubble with-border" style="width: 200px;">
+            <em><u>Location groups</u></em>, such as 'Home', 'Office' or 'Beach Home' encapsulate your monitored / controlled locations and accompanying sensors / automation tasks.
+        </span>
+    </span>
+
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+    <p></p>
+    <div class="float-right margin-bottom">
+        <a href="#" class="button float-right" id="new_location_group_add">
+            <span class="button-icon blue-gradient glossy"><span class="icon-star"></span></span>
+            Add New Location Group
+        </a>
+    </div>
+
+    <div class="block anthracite-gradient glow clear-both margin-bottom" id="new_location_group_input" style="display: none;">
+        <h3 class="block-title">New Location Group</h3>
+        <span class="close inset">✕</span>
+        <div class="with-padding">
+            <form id="input_form">
+            <span class="button-group">
+                <label for="button-active-1" class="button green-active">
+                    <input type="radio" name="location_group_active" id="button-active-1" value="1" checked>
+                    Active
+                </label>
+
+                <label for="button-active-2" class="button green-active">
+                    <input type="radio" name="location_group_active" id="button-active-2" value="0">
+                    Inactive
+                </label>
+            </span>
+
+            <br /><br />
+
+            <input name="location_group_name" class="validate[required] input large full-width" type="text" placeholder="Name" /><br /><br />
+
+            <textarea name="location_group_description" class="validate[required] input full-width margin-bottom" placeholder="Description"></textarea>
+
+            <a href="#" class="button margin-right" id="new_location_group_save">
+                <span class="button-icon blue-gradient glossy"><span class="icon-save"></span></span>
+                Save
+            </a>
+
+            <a href="#" class="button" id="new_location_group_cancel">
+                <span class="button-icon red-gradient glossy"><span class="icon-cross"></span></span>
+                Cancel
+            </a>
+            </form>
+        </div>
+    </div>
+
+    <div id="table_data_container"></div>
+
+    <script src="{% static 'js/monitor/common.js' %}"></script>
+    <script src="{% static 'js/monitor/locationGroups.js' %}"></script>
+
+{% endblock %}
+
+{% block footer %}
+
+{%  endblock %}
+
+
+
+

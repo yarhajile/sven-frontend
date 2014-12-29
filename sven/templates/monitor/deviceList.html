@@ -1,0 +1,83 @@
+<h3 class="margin-left">Devices in <em>{{ location.name }}</em></h3>
+
+<table class="simple-table responsive-table" id="table-data-container">
+    <thead>
+        <tr>
+            <th scope="col"><input type="checkbox" name="check-all" id="check-all" value="1"></th>
+            <th scope="col" style="width: 110px">Action</th>
+            <th scope="col">Name</th>
+            <th scope="col" class="hide-on-mobile" style="width: 100px;">Last Updated</th>
+            <th scope="col" style="width: 180px">Alarm Status</th>
+            <th scope="col" style="width: 90px;">Active</th>
+        </tr>
+    </thead>
+
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                &nbsp;&nbsp;&nbsp;
+                <a href="{{ base_url }}{% url 'monitor:deviceNew' %}" class="button margin-right margin-left edit_location_save">
+                    <span class="button-icon green-gradient glossy"><span class="icon-plus"></span></span>
+                    Add New Device
+                </a>
+
+                <form method="post" id="devices_action_post" action="" style="float:left;">
+                With selected:
+                <select name="actions" id="group_actions" class="select  mid-margin-left">
+                    <option value="delete">Delete</option>
+                    <option value="duplicate">Duplicate</option>
+                    <option value="activate">Activate</option>
+                    <option value="deactivate">Deactivate</option>
+                    <option value="trash">Move to trash</option>
+                </select>
+                <button type="submit" id="actions_submit" class="button">Go</button>
+                </form>
+            </td>
+        </tr>
+    </tfoot>
+
+    <tbody>
+        {% for object in location.location_device_set.all %}
+        <tr class="locationsRow">
+            <th scope="row" class="checkbox-cell"><input type="checkbox" name="locations_checked[]" value="{{ object.device.id }}"></th>
+            <td class="locationsRowActionCell">
+                <a href="{{ base_url }}{% url 'monitor:device' id=object.device_id %}" class="button margin-right edit_location_save">
+                    <span class="button-icon orange-gradient glossy"><span class="icon-pencil"></span></span>
+                    View
+                </a>
+            </td>
+            <td class="locationsRowActionCell">{{ object.device.name }}</td>
+            <td class="locationsRowActionCell hide-on-mobile">{{ object.device.updated|date:'G:i - n/j/y' }}</td>
+            <td class="locationGroupRowActionCell">
+                <span class="button-group">
+                    <label for="alarm-system-device-1-{{ object.id }}" class="button green-active">
+                        <input type="radio" name="alarm-system-device-{{ object.id }}" id="alarm-system-device-1-{{ object.id }}" class="alarm-system-device" value="1" {% if object.device.arm_status_device_set.all.0.arm_status_id == 1 %}checked{% endif %}>
+                        Away
+                    </label>
+                    <label for="alarm-system-device-2-{{ object.id }}" class="button green-active">
+                        <input type="radio" name="alarm-system-device-{{ object.id }}" id="alarm-system-device-2-{{ object.id }}" class="alarm-system-device" value="2" {% if object.device.arm_status_device_set.all.0.arm_status_id == 1 %}checked{% endif %}>
+                        Home
+                    </label>
+                    <label for="alarm-system-device-3-{{ object.id }}" class="button green-active">
+                        <input type="radio" name="alarm-system-device-{{ object.id }}" id="alarm-system-device-3-{{ object.id }}" class="alarm-system-device" value="3" {% if object.device.arm_status_device_set.all.0.arm_status_id == 3 %}checked{% endif %}>
+                        Night
+                    </label>
+                </span>
+            </td>
+            <td>
+                <span class="button-group">
+                    <label for="active-{{ object.device.id }}-yes" class="button green-active {% if object.device.active == True %} active{% endif %}">
+                        <input type="radio" class="device_active_state" rel="{{object.device.id}}" name="radio-buttons-{{ object.device.id }}" id="active-{{ object.device.id }}-yes" value="1" {% if object.device.active == True %}checked{% endif %}>
+                        Yes
+                    </label>
+                    <label for="active-{{ object.device.id }}-no" class="button red-active {% if object.device.active == False %} active{% endif %}">
+                        <input type="radio" class="device_active_state" rel="{{object.device.id}}" name="radio-buttons-{{ object.device.id }}" id="active-{{ object.device.id }}-no" value="0" {% if object.device.active == False %}checked{% endif %}>
+                        No
+                    </label>
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

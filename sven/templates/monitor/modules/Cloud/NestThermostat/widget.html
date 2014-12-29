@@ -1,0 +1,28 @@
+<div class="columns">
+	<div class="left-column margin-right">
+    Inside Temperature<br/>
+    Inside Humidity<br/><br>
+    Outside Temperature<br/>
+    Outside Humidity
+	</div>
+	<div class="right-column">
+    <span id="weather-inside-temperature">..</span><br/>
+    <span id="weather-inside-humidity">..</span><br/><br>
+    <span id="weather-outside-temperature">..</span><br/>
+    <span id="weather-outside-humidity">..</span>
+	</div>
+</div>
+
+<script>
+  SvenWSCallbacks.CurrentWeather = function(data) {
+    $('#weather-inside-temperature').html(data.inside_temperature);
+    $('#weather-inside-humidity').html(data.inside_humidity);
+
+    console.log(data);
+    $('#weather-outside-temperature').html(data.outside_temperature);
+    $('#weather-outside-humidity').html(data.outside_humidity);
+
+    $('#current_temperature').val(data.inside_temperature).trigger('change');
+  }
+</script>
+

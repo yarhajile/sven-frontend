@@ -1,0 +1,432 @@
+<div class="component_wrapper">
+  <!-- Actions -->
+  <label class="label">
+        <span class="info-spot">
+            <span class="icon-info-round"></span>
+            <span class="info-bubble with-border" style="width: 200px;">
+                Actions
+            </span>
+        </span>
+    Output Actions
+  </label><br/>
+
+  <a href="javascript:openOutputActionModal( );" class="button blue-gradient">Add
+    new action</a>
+  <br/><br/>
+
+  The following actions will occur when this device is triggered.
+  <dl class="accordion toggle-mode" id="associated-output-actions">
+    {% for object in data.device.input_device.all %}
+      <dt unique_output_action_id="{{ object.id }}"
+          output_action="{{ object.action }}"
+          device_id="{{ object.output_device_id }}"></dt>
+      <dd unique_output_action_id="{{ object.id }}">
+        <input type="hidden" class="output-device-actions"
+               unique_id="{{ object.id }}"
+               device_id="{{ object.output_device_id }}"
+               conditions='{{ object.conditions|safe }}'
+               parameters='{{ object.parameters|safe }}'
+               action="{{ object.action }}"/>
+
+        <div class="with-padding white-bg">
+          <div class="output-action-description margin-bottom">{{ object.description }}</div>
+          <div class="output-action-parameters margin-bottom"
+               device_id="{{ object.id }}">
+          </div>
+
+          <a class="button blue-gradient remove-output-action"
+             unique_id="{{ object.id }}">Remove</a>&nbsp;&nbsp;
+          <a class="button green-gradient set-output-action-conditions"
+             device_id="{{ object.output_device_id }}"
+             current_conditions="{{ object.conditions|safe }}">Conditions</a>
+
+          <div class="output-action-conditions-container"
+               style="display: none;"></div>
+        </div>
+      </dd>
+      <script type="text/javascript">
+        $(function () {
+          $('.output-action-parameters[device_id={{ object.id }}]').html(function () {
+            var output = '';
+            $.each($.parseJSON('{{ object.parameters|safe }}'), function (key, obj) {
+              output += obj.key + ' <input class="input parameter-input" unique_id="{{ object.id }}" device_id="{{ object.output_device_id }}" name="' + obj.key + '" type="text" value="' + obj.value + '" /><br />';
+            })
+            return output;
+          });
+        });
+      </script>
+    {% endfor %}
+  </dl>
+
+  <div id="output-action-matrix-container" style="display: none;">
+    <section class="navigable">
+      <ul class="big-menu" id="output_action_matrix"></ul>
+    </section>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+var predicates = { eq: 'Equal to', ne: 'Not equal to', gt: 'Greater than', lt: 'Less than', ge: 'Greater than or equal to', le: 'Less than or equal to' };
+var conditions = [];
+
+function openOutputActionModal(content, buttons) {
+  $.modal({
+    title: 'New action to perform when this device is triggered',
+    content: $('#output-action-matrix-container').html(),
+    buttons: buttons,
+    beforeContent: '<div class="carbon">',
+    afterContent: '</div>',
+    buttonsAlign: 'right',
+    resizable: true,
+    contentBg: false,
+    maxSizeMargin: 0,
+    maxHeight: 500,
+    minWidth: 500
+  });
+}
+
+function openConditionModal(content, buttons) {
+  $.modal({
+    title: 'Conditions that must be met in order for this action to trigger',
+    content: content,
+    buttons: buttons,
+    beforeContent: '<div class="carbon">',
+    afterContent: '</div>',
+    buttonsAlign: 'right',
+    resizable: true,
+    contentBg: false,
+    maxSizeMargin: 0,
+    maxHeight: 500,
+    minWidth: 600
+  });
+}
+
+function resetOutputActionDefinition() {
+  $('#associated-output-actions').find('dt').each(function () {
+    $that = $(this);
+    $.each(output_actions, function (module_name, module) {
+      if (module.actions.length == 0) {
+        // Don't display modules that do not have any actions
+        return;
+      }
+      $.each(module.actions, function (index, action) {
+        if (module.device_id == $that.attr('device_id') && $that.attr('output_action') == action.action) {
+          $that.html(module.meta.name + ' &raquo; ' + module.device_name + ' &raquo; ' + action.meta.name);
+          $that.next().find('div.output-action-description').html(action.meta.description);
+          // parameter rebuild
+        }
+      });
+    });
+  });
+}
+
+$(function () {
+  var chosen_actions = [
+    {% for object in data.device.input_device.all %}
+      {
+        'id': {{ object.output_device_id }},
+        'action': '{{ object.action }}',
+        'parameters': {{ object.parameters|safe }},
+        'conditions': {{ object.conditions|safe }}
+      },
+    {% endfor %}
+  ];
+
+  $('body').on('click', '.add-output-action', function () {
+    var attributes = {
+      'device_id': $(this).attr('device_id'),
+      'action': $(this).attr('module_action'),
+      'name': $(this).attr('module_action_name'),
+      'description': $(this).attr('module_action_description'),
+      'parameters': $.parseJSON($(this).attr('module_action_parameters'))
+    }
+
+    var parameters = '';
+    var unique_id = $.now();
+
+    $.each(attributes.parameters, function (key, value) {
+      parameters += value + ' <input class="input parameter-input" unique_id="' + unique_id + '" device_id="' + attributes.device_id + '" name="' + key + '" type="text" value="" /><br />';
+    });
+
+    console.log(attributes);
+
+    $('#associated-output-actions').append('' +
+            '<dt unique_output_action_id="' + unique_id + '" class="closed" device_id="' + attributes.device_id + '" output_action="' + attributes.action + '">' + attributes.name + '</dt>' +
+            '<dd unique_output_action_id="' + unique_id + '" style="display: none;" class="white-bg">' +
+            '  <input type="hidden" class="output-device-actions" unique_id="' + unique_id + '" device_id="' + attributes.device_id + '" conditions=\'[]\' parameters=\'[]\' action="' + attributes.action + '" />' +
+            '  <div class="with-padding white-bg">' +
+            '      <div class="output-action-description margin-bottom">' + attributes.description + '</div>' +
+            '      <div class="output-action-parameters margin-bottom" device_id="' + unique_id + '">' + parameters + '</div>' +
+            '      <a class="button remove-output-action blue-gradient" unique_id="' + unique_id + '">Remove</a>&nbsp;&nbsp;' +
+            '      <a class="button green-gradient set-output-action-conditions" device_id="' + attributes.device_id + '" current_conditions="">Conditions</a>' +
+            '      <div class="output-action-conditions-container" style="display: none;"></div>' +
+            '  </div>' +
+            '</dd>'
+    );
+
+    resetOutputActionDefinition();
+    updateDeviceAction();
+    $.modal.current.closeModal();
+  });
+
+  $('body').on('change', '.parameter-input', function () {
+    // @todo Need to add the ability for multiple parameters
+    $('.output-device-actions[unique_id=' + $(this).attr('unique_id') + ']').attr('parameters', JSON.stringify([
+      { 'key': $(this).attr('name'), 'value': $(this).val() }
+    ]));
+
+    updateDeviceAction();
+    return false;
+  });
+
+  $('body').on('click', '.remove-output-action', function () {
+    console.log('[unique_output_action_id=' + $(this).attr('unique_id') + ']');
+    $('[unique_output_action_id=' + $(this).attr('unique_id') + ']').remove();
+    updateDeviceAction();
+  });
+
+  SvenWSCallbacks.OutputActions = function (data) {
+    var opt_group = '';
+    output_actions = data;
+    // First, build conditions from data
+    $.each(data, function (module_name, module) {
+      if (module.actions.length == 0) {
+        // Don't display modules with no actions
+        return;
+      }
+      if (module.conditions.length > 0) {
+        conditions.push(module);
+      }
+    });
+
+    // Second, populate data
+    $.each(data, function (module_name, module) {
+      if (module.actions.length == 0) {
+        // Don't display modules that do not have any actions
+        return;
+      }
+      var bubbleInfo = '<table class="simple-table"><tr><td>Description</td><td>' + module.meta.description + '</td></tr>';
+      $.each(module.parameters, function (key, value) {
+        bubbleInfo += '<tr><td>' + value[0] + '</td><td>' + value[1] + '</td></tr>';
+      });
+      bubbleInfo += '</table>';
+      opt_group += '' +
+              '<li class="with-right-arrow">' +
+              '  <span>' +
+              '    <span class="list-count">' + module.actions.length + '</span>' +
+              '    <span class="info-spot">' +
+              '      <span class="icon-info-round"></span>' +
+              '      <span class="info-bubble" style="width:300px;">' +
+              bubbleInfo +
+              '      </span>' +
+              '    </span>' +
+              module.meta.name + ' &raquo; ' + module.device_name +
+              '  </span>' +
+              '  <ul class="big-menu">';
+      $.each(module.actions, function (index, action) {
+        opt_group += '<li><a device_id="' + module.device_id + '" module_action="' + action.action + '" module_action_name="' + action.meta.name + '" module_action_description="' + action.meta.description + '" module_action_parameters=\'' + JSON.stringify(action.meta.parameters).replace(/'/g, "\\'") + '\' class="add-output-action" />' + action.meta.name + '</a></li>';
+      });
+      opt_group += '' +
+              '  </ul>' +
+              '</li>';
+    });
+
+    $('#output_action_matrix').append(opt_group);
+    $('.navigable').trigger('silent-change');
+    resetOutputActionDefinition();
+  };
+
+  $('body').on('click', '.add-new-condition', function () {
+    try {
+      var predicate_text = $(this).parent().find('.predicate-text').html();
+      var condition_device_id = $(this).parent().find('.condition_device_id_and_key').attr('condition_device_id');
+      var condition_key = $(this).parent().find('.condition_device_id_and_key').attr('condition_key');
+
+      if ($(this).parent().find('.condition-value').hasClass('select')) {
+        var condition_value = $(this).parent().find('.condition-value option:selected').text();
+      }
+      else {
+        var condition_value = $(this).parent().find('.condition-value').val();
+      }
+
+      var predicate_select_text = $(this).parent().find('.predicate option:selected').text();
+      var predicate_select_value = $(this).parent().find('.predicate option:selected').val();
+      var appendString = '<p class="message"><a href="#" title="Hide message" class="close">✕</a>' + predicate_text + ' ' + predicate_select_text + ' ' + condition_value + '</p>';
+
+      $(this).closest('.condition-parent').children().find('.conditions-for-action').append(appendString);
+      // Parse existing conditions. Append new conditions
+      var existingConditions = $.parseJSON($('input.output-device-actions[device_id=' + $(this).attr('device_id') + ']').attr('conditions'));
+
+      existingConditions.push({
+        'device_id': condition_device_id,
+        'key': condition_key,
+        'value': condition_value,
+        'predicate': predicate_select_value
+      });
+
+      $('input.output-device-actions[device_id=' + $(this).attr('device_id') + ']').attr('conditions', JSON.stringify(existingConditions));
+      // @todo Add new ajax action for updating conditions instead of bull-dozing the entire device.
+      updateDeviceAction();
+    }
+    catch (error) {
+      console.log(error.message);
+      console.log(error.stack);
+    }
+  });
+
+  function updateDeviceAction(element) {
+    var requestData = {
+      'device_id': $('#device_id').val(),
+      'actions': []
+    }
+
+    $('#associated-output-actions').find('input.output-device-actions').each(function () {
+      requestData.actions.push({
+        'device_id': $(this).attr('device_id'),
+        'action': $(this).attr('action'),
+        'conditions': $.parseJSON($(this).attr('conditions')),
+        'parameters': $.parseJSON($(this).attr('parameters'))
+      });
+    });
+
+    console.log(requestData);
+    $.post('/monitor/ajaxUpdateDeviceAction', { 'data': JSON.stringify(requestData) });
+    wsw.send(JSON.stringify({ 'action': 'ResetOutputActionCacheForDevice', 'device_id': $('#device_id').val() }));
+  }
+
+  $('body').on('change', '.input_action', function () {
+    $(this).parent().find('.condition-open-button').first().toggle();
+    return updateDeviceAction();
+  });
+
+  $('body').on('change', '.action-parameter', function () {
+    return updateDeviceAction();
+  });
+
+  $('body').on('click', '.set-output-action-conditions', function () {
+    var device_id = $(this).attr('device_id');
+    var currentConditions = $(this).attr('current_conditions');
+    var opt_group = '' +
+            '<p>Choose a module and add the conditions you want to be met before this action will trigger.<br />' +
+            'If you do not add any conditions then this action will always trigger.</p>' +
+            '<dl class="accordion toggle-mode condition-accordion">';
+
+    $.each(conditions, function (module_name, conditionModule) {
+      opt_group += '<dt class="closed">' + conditionModule.device_name + '</dt>';
+      opt_group += '<dd style="display: none;">';
+      opt_group += '  <div class="white-gradient condition-parent">';
+      opt_group += '    <div class="float-left conditions-left-column" style="width: 50%;">';
+      opt_group += '      <div class="with-padding">';
+
+      $.each(conditionModule.conditions, function (conditionIndex, condition) {
+        var unique_condition_id = Date.now();
+        opt_group += '' +
+                '<div class="with-padding block margin-bottom">' +
+                '  <span class="predicate-text">When \'' + condition.name + '\' is</span><br />' +
+                '  <input type="hidden" class="condition_device_id_and_key" ' +
+                'condition_device_id="' + conditionModule.device_id + '" ' +
+                'condition_key="' + condition.key +
+                '"/>' +
+                '  <select name="predicate" class="select predicate">';
+
+        $.each(condition.predicates, function (predicate_index, predicate) {
+          opt_group += '    <option value="' + predicate + '">' + predicates[predicate] + '</option>';
+        });
+
+        opt_group += '  </select><br />';
+
+        var placeholder = '';
+
+        if (condition.type == 'float' || condition.type == 'int' || condition.type == 'string') {
+          opt_group += 'The following ';
+
+          if (condition.type == 'float') {
+            opt_group += ' number';
+            placeholder += 'ex: 74.5';
+          }
+          else if (condition.type == 'int') {
+            opt_group += 'number';
+            placeholder += 'ex: 76';
+          }
+          else if (condition.type == 'string') {
+            opt_group += 'value';
+          }
+          opt_group += '<br /><input type="text" class="condition-value input" placeholder="' + placeholder + '" name="' + condition.key + '">';
+        }
+
+        if (condition.type == 'dict') {
+          opt_group += 'The following options<br /> ';
+          opt_group += '<select name="' + condition.key + '" class="condition-value select ' + ( condition.multiple == true ? ' multiple-as-single easy-multiple-selection check-list" multiple' : '"' ) + '>';
+          $.each(condition.values, function (condition_value_index, condition_option) {
+            opt_group += '<option value="' + condition_option.value + '">' + condition_option.name + '</option>';
+          });
+          opt_group += '</select>';
+        }
+
+        if (condition.type == 'list') {
+          opt_group += 'The following options:<br /> ';
+          opt_group += '<select name="' + condition.key + '" class="condition-value select ' + ( condition.multiple == true ? ' multiple-as-single easy-multiple-selection check-list" multiple' : '"' ) + '>';
+          $.each(condition.values, function (condition_value_index, condition_option) {
+            opt_group += '<option value="' + condition_option.value + '">' + condition_option.value + '</option>';
+          });
+          opt_group += '</select>';
+        }
+
+        if (condition.type == 'date') {
+          opt_group += 'The following date<br />';
+          opt_group += '' +
+                  '<p class="button-height">' +
+                  '  <span class="input">' +
+                  '    <span class="icon-calendar"></span>' +
+                  '    <input type="text" name="datepicker" id="' + unique_condition_id + '" class="condition-value input-unstyled datepicker" value="">' +
+                  '  </span>' +
+                  '</p>' +
+                  '';
+        }
+
+        opt_group += '  <div class="margin-top add-new-condition button blue" device_id="' + device_id + '">Add</div>';
+        opt_group += '</div>';
+      });
+
+      opt_group += '      </div>';
+      opt_group += '    </div>';
+      opt_group += '    <div class="float-left conditions-right-column" style="width: 50%;">';
+      opt_group += '      <div class="with-padding conditions-for-action"></div>';
+      opt_group += '    </div>';
+      opt_group += '    <div class="clear-both"></div>';
+      opt_group += '  </div>';
+      opt_group += '  <div class="clear-both"></div>';
+      opt_group += '</dd>';
+    });
+
+    opt_group += '</dl>';
+    openConditionModal(opt_group);
+  });
+
+  SvenWSCallbacks.UnitCodeDiscovered = function (data) {
+    var output = '';
+    if (data.id) {
+      output += 'In use: ' + data.unitcode + '<br />';
+    }
+    else {
+      output += '<a style="cursor: pointer;" onclick="javascript: $( \'#input_unitcode\' ).val( ' + data.unitcode + ' ); $.modal.current.closeModal(); return false;">Available: ' + data.unitcode + '</a><br />';
+    }
+    $('#unitCodeInfo').append(output);
+  }
+
+  $('#unitCodeListen').click(function () {
+    $.modal({
+      title: 'Unit Code Listener',
+      content: ' ',
+      beforeContent: '<div id="unitCodeInfo">',
+      afterContent: '</div>'
+    });
+  });
+
+  // Populate the output action business for this page specifically.  This var
+  // is available on every page load for widgets and such, but we would like to
+  // perform additional actions on the data here.
+  SvenWSCallbacks.OutputActions(output_actions);
+});
+</script>

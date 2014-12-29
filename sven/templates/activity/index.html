@@ -1,0 +1,13 @@
+{%  include 'core/header.html' %}
+
+<h1>Activity index</h1>
+
+{{  datas }}
+
+<hr />
+
+{%  for key, value in datas.items %}
+    {{  key }} :: {{  value }}<hr />
+{% endfor %}
+
+{%  include 'core/footer.html' %}

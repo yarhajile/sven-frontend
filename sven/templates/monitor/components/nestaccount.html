@@ -1,0 +1,69 @@
+<div class="component_wrapper">
+  <!-- Nest Accounts -->
+  <label class="label">
+    <span class="info-spot">
+      <span class="icon-info-round"></span>
+      <span class="info-bubble with-border" style="width: 200px;">
+        Nest Accounts
+      </span>
+    </span>
+    Nest Accounts
+  </label><br/>
+
+
+  <select class="select" id="nest-accounts" name="input_nestaccount"></select>
+  <br/><br/>
+</div>
+
+<div id="no_accounts_message" style="display: none;">There are no Nest accounts
+  setup. Please add a 'Nest Account' device first.
+</div>
+
+
+<script type="text/javascript">
+  SvenWSCallbacks.ModuleFactoryStatus = function (data) {
+    $('#nest-accounts').empty().append('<option selected>Choose a running Nest service</option>');
+
+    var nest_account_found = 0;
+
+    $.each(data, function (module_key, module_details) {
+      if (module_key == 'Sven.Cloud.Nest') {
+
+        var username = '';
+
+        $.each(module_details.parameters, function (parameter_key, parameter_value) {
+          if (parameter_value[0] == 'username') {
+            username = parameter_value[1];
+          }
+        });
+
+        $('#nest-accounts').append('<option value="' + module_details.device_id + '"' + ( module_details.device_id == '{{ data.parameters.nestaccount }}' ? ' selected' : '' ) + '>' + module_details.device_name + ' : ' + username + '</option>');
+        $('#nest-account-details').attr('device_id', module_details.device_id).show();
+
+        nest_account_found += 1;
+      }
+    });
+
+    if (nest_account_found > 0) {
+      if (nest_account_found > 1) {
+        $('#nest-accounts').trigger('silent-change');
+      }
+      else {
+        $('#nest-accounts').change();
+      }
+    }
+    else {
+      $('.component_wrapper').hide();
+      $('#no_accounts_message').show();
+    }
+  }
+
+  $(function () {
+    // Finds all currently running modules
+    wsw.send(JSON.stringify({ 'action': 'ModuleFactoryStatus', 'callback': 'ModuleFactoryStatus' }));
+
+    $('#nest-accounts').change(function () {
+      wsw.send(JSON.stringify({ 'action': 'GetDeviceList', 'device_id': $(this).val(), 'callback': 'SetNestSerial' }));
+    });
+  });
+</script>

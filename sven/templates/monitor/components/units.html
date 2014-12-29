@@ -1,0 +1,26 @@
+<div class="component_wrapper">
+  <!-- Units -->
+  <label class="label">
+    <span class="info-spot">
+      <span class="icon-info-round"></span>
+      <span class="info-bubble with-border" style="width: 200px;">
+        Units
+      </span>
+    </span>
+
+    Units Display
+  </label><br />
+
+  <span class="button-group margin-bottom">
+    <label for="input_units_f" class="button green-active{% if 'F' == data.parameters.units %} active{% endif %}">
+      <input type="radio" name="input_units" value="F" id="input_units_f"{% if 'F' == data.parameters.units %} checked{% endif %}>
+      Fahrenheit
+    </label>
+    <label for="input_direction_c" class="button green-active{% if 'C' == data.parameters.units %} active{% endif %}">
+      <input type="radio" name="input_units" value="C" id="input_units_c"{% if 'C' == data.parameters.units %} checked{% endif %}>
+      Celsius
+    </label>
+  </span>
+
+  <br />
+</div>

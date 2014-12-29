@@ -1,0 +1,92 @@
+{% extends "core/base.html" %}
+
+{% block title %}Location Configuration{% endblock %}
+
+{% block heading %}
+    Location Configuration
+    <span class="info-spot">
+        <span class="icon-info-round"></span>
+        <span class="info-bubble with-border" style="width: 200px;">
+            <em><u>Locations</u></em>, such as 'Kitchen', 'Living Room' or 'Garage' encapsulate your monitored / controlled sensors and automation tasks.
+        </span>
+    </span>
+
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="block anthracite-gradient glow clear-both margin-top">
+    <form id="input_form" autocomplete="off">
+    <input type="hidden" name="location_group_id" id="location_group_id" value="{{ locationGroup.id }}" />
+    <input type="hidden" name="location_id" id="location_id" value="{{ location.id }}" />
+
+    <h3 class="block-title">
+        <a href="{{ base_url }}{% url 'monitor:locationGroup' location_group.id %}">{{ location_group.name }}</a> &raquo; <span id="location_name">{{ location.name }}</span>
+
+        <!-- Active -->
+        <span class="button-group float-right">
+            <label for="active-yes" class="button green-active {% if location.active == True %} active{% endif %}">
+                <input type="radio" name="input_active" id="active-yes" value="1" {% if location.active == True %}checked{% endif %}>
+                Active
+            </label>
+            <label for="active-no" class="button red-active {% if location.active == False %} active{% endif %}">
+                <input type="radio" name="input_active" id="active-no" value="0" {% if location.active == False %}checked{% endif %}>
+                Inactive
+            </label>
+        </span>
+    </h3>
+{{ sess.description }}
+    <div class="with-padding">
+
+        <!-- Name -->
+        <label class="label">
+            <span class="info-spot">
+                <span class="icon-info-round"></span>
+                <span class="info-bubble with-border" style="width: 200px;">
+                    Friendly name identifier
+                </span>
+            </span>
+            Name
+        </label><br />
+        <input id="input_name" name="input_name" class="validate[required] input full-width margin-bottom" type="text" placeholder="Name" value="{{ location.name }}" />
+        <br />
+
+        <!-- Description -->
+        <label class="label">
+            <span class="info-spot">
+                <span class="icon-info-round"></span>
+                <span class="info-bubble with-border" style="width: 200px;">
+                    Description
+                </span>
+            </span>
+            Description
+        </label>
+        <textarea id="input_description" name="input_description" class="validate[required] input full-width margin-bottom" placeholder="Description">{{ location.description }}</textarea>
+    </div>
+    </form>
+
+    <div class="with-padding" id="table_data_container"></div>
+
+    <div class="with-padding">
+        <a href="{{ base_url }}{% url 'monitor:locationGroup' location_group.id %}" class="button margin-right edit_location_save">
+            <span class="button-icon blue-gradient glossy"><span class="icon-like"></span></span>
+            Finished
+        </a>
+    </div>
+
+</div>
+
+
+<script src="{% static 'js/monitor/common.js' %}"></script>
+<script src="{% static 'js/monitor/location.js' %}"></script>
+
+{% endblock %}
+
+{% block footer %}
+
+{%  endblock %}
+
+
+
+

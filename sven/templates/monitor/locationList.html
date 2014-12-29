@@ -1,0 +1,95 @@
+<div class="table-header anthracite-gradient button-height clear-both">
+    <h3 class="float-left margin-right">Locations</h3>
+    <span class="float-right">
+    Show&nbsp;<select name="range" class="select anthracite-gradient glossy">
+        <option value="10" selected="selected">10</option>
+        <option value="20">20</option>
+        <option value="40">40</option>
+        <option value="100">100</option>
+    </select> entries
+
+    </span>
+    <br class="clear-both" />
+</div>
+
+<table class="table responsive-table">
+    <thead>
+        <tr>
+            <th scope="col"><input type="checkbox" name="check-all" id="check-all" value="1"></th>
+            <th scope="col" style="width: 95px">Action</th>
+            <th scope="col">Name</th>
+            <th scope="col" class="hide-on-mobile" style="width: 100px;">Last Updated</th>
+            <th scope="col" style="width: 100px;">Active</th>
+        </tr>
+    </thead>
+
+    <tfoot>
+        <tr>
+            <td colspan="5">
+                <a href="{{ base_url }}{% url 'monitor:locationNew' %}" class="button margin-right edit_location_save">
+                    <span class="button-icon green-gradient glossy"><span class="icon-plus"></span></span>
+                    Add New Location
+                </a>
+            </td>
+        </tr>
+    </tfoot>
+
+    <tbody>
+        {% for object in locationGroup.location_set.all %}
+        <tr class="locationsRow">
+            <th scope="row" class="checkbox-cell"><input type="checkbox" name="locations_checked[]" value="{{ object.id }}"></th>
+            <td class="locationsRowActionCell">
+                <a href="{{ base_url }}{% url 'monitor:location' id=object.id %}" class="button margin-right edit_location_save">
+                    <span class="button-icon orange-gradient glossy"><span class="icon-pencil"></span></span>
+                    Edit
+                </a>
+            </td>
+            <td class="locationsRowActionCell">{{ object.name }}</td>
+            <td class="locationsRowActionCell hide-on-mobile">{{ object.updated|date:'G:i - n/j/y' }}</td>
+            <td>
+                <span class="button-group">
+                    <label for="active-{{ object.id }}-yes" class="button green-active {% if object.active == True %} active{% endif %}">
+                        <input type="radio" class="location_active_state" rel="{{object.id}}" name="radio-buttons-{{ object.id }}" id="active-{{ object.id }}-yes" value="1" {% if object.active == True %}checked{% endif %}>
+                        Yes
+                    </label>
+                    <label for="active-{{ object.id }}-no" class="button red-active {% if object.active == False %} active{% endif %}">
+                        <input type="radio" class="location_active_state" rel="{{object.id}}" name="radio-buttons-{{ object.id }}" id="active-{{ object.id }}-no" value="0" {% if object.active == False %}checked{% endif %}>
+                        No
+                    </label>
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<form method="post" id="locations_action_post" action="" class="table-footer anthracite-gradient button-height large-margin-bottom">
+<div class="float-right">
+    <div class="button-group">
+        <a href="#" title="First page" class="button anthracite-gradient glossy"><span class="icon-previous"></span></a>
+        <a href="#" title="Previous page" class="button anthracite-gradient glossy"><span class="icon-backward"></span></a>
+    </div>
+
+    <div class="button-group">
+        <a href="#" title="Page 1" class="button anthracite-gradient glossy active">1</a>
+        <a href="#" title="Page 2" class="button anthracite-gradient glossy">2</a>
+        <a href="#" title="Page 3" class="button anthracite-gradient glossy">3</a>
+        <a href="#" title="Page 4" class="button anthracite-gradient glossy">4</a>
+    </div>
+
+    <div class="button-group">
+        <a href="#" title="Next page" class="button anthracite-gradient glossy"><span class="icon-forward"></span></a>
+        <a href="#" title="Last page" class="button anthracite-gradient glossy"><span class="icon-next"></span></a>
+    </div>
+</div>
+
+With selected:
+<select name="actions" id="group_actions" class="select anthracite-gradient glossy mid-margin-left">
+    <option value="delete">Delete</option>
+    <option value="duplicate">Duplicate</option>
+    <option value="activate">Activate</option>
+    <option value="deactivate">Deactivate</option>
+    <option value="trash">Move to trash</option>
+</select>
+<button type="submit" id="actions_submit" class="button anthracite-gradient glossy">Go</button>
+</form>

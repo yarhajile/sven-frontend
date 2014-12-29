@@ -1,0 +1,347 @@
+{'location_name': 'System', 'parameters': [
+  ['interface', 'Cloud'],
+  ['serial', '02AA01AC371305HK'],
+  ['index', '1'],
+  ['bus', 'NestThermostat'],
+  ['units', 'F'],
+  ['direction', 'both'],
+  ['nestaccount', '43'],
+  ['text_to_speak', '']
+], 'conditions': [
+  {
+    'multiple': False,
+    'name': 'Indoor Temperature',
+    'values': [],
+    'key': 'indoor_temp',
+    'predicates': ['lt', 'gt'],
+    'type': 'float',
+    'description': None
+  },
+  {
+    'multiple': False,
+    'name': 'Outdoor Temperature',
+    'values': [],
+    'key': 'outdoor_temp',
+    'predicates': ['le', 'ge'],
+    'type': 'float',
+    'description': None
+  },
+  {
+    'multiple': False,
+    'name': 'Outdoor Humidity',
+    'values': [],
+    'key': 'indoor_humidity',
+    'predicates': ['eq'],
+    'type': 'float',
+    'description': None
+  },
+  {
+    'multiple': False,
+    'name': 'Outdoor Humidity',
+    'values': [],
+    'key': 'outdoor_humidity',
+    'predicates': ['ne'],
+    'type': 'float',
+    'description': None
+  },
+  {
+    'multiple': False,
+    'name': 'HVAC Mode',
+    'values': [
+      {
+        'name': 'Cool',
+        'value': 1,
+        'description': None
+      },
+      {
+        'name': 'Heat',
+        'value': 2,
+        'description': None
+      },
+      {
+        'name': 'Both',
+        'value': 3,
+        'description': None
+      }
+    ],
+    'key': 'hvac_mode',
+    'predicates': ['ne', 'gt', 'eq'],
+    'type': 'dict',
+    'description': None
+  }
+], 'actions': [
+  {
+    'action': 'action_CurrentWeather',
+    'meta': {
+      'name': 'Weather',
+      'outputActionConditions': [],
+      'parameters': {},
+      'description': 'Current Weather Details'
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_GetDeviceList',
+    'meta': {
+      'name': 'Device Listing',
+      'description': 'Shows available nest devices for this account',
+      'outputActionConditions': [],
+      'parameters': {},
+      'outputActionIgnore': True
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_SetAutoAwayStatus',
+    'meta': {
+      'name': 'Set Auto Away Status',
+      'outputActionConditions': [],
+      'parameters': {},
+      'description': None
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_SetAwayStatus',
+    'meta': {
+      'name': 'Set Away',
+      'outputActionConditions': [],
+      'parameters': {},
+      'description': None
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_SetDualFuelBreakpoint',
+    'meta': {
+      'name': 'Set Dual Fuel Breakpoint',
+      'outputActionConditions': [],
+      'parameters': {},
+      'description': None
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_SetFanMode',
+    'meta': {
+      'name': 'Set Fan Status',
+      'outputActionConditions': [],
+      'parameters': {
+        'state': 'Fan state ( on / auto )',
+        'values': ['on', 'auto']
+      },
+      'description': 'Turn fan on / auto for Nest thermostat'
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_SetHumidifierStatus',
+    'meta': {
+      'name': 'Enable Humidifier',
+      'outputActionConditions': [],
+      'parameters': {},
+      'description': None
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_SetHumidity',
+    'meta': {
+      'name': 'Set Humidity',
+      'outputActionConditions': [],
+      'parameters': {},
+      'description': None
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_SetTemperature',
+    'meta': {
+      'name': 'Set temperature',
+      'outputActionConditions': [
+        {
+          'multiple': False,
+          'name': 'Indoor Temperature',
+          'values': [],
+          'key': 'indoor_temp',
+          'predicates': ['lt', 'gt'],
+          'type': 'float',
+          'description': None
+        },
+        {
+          'multiple': False,
+          'name': 'Outdoor Humidity',
+          'values': [],
+          'key': 'indoor_humidity',
+          'predicates': ['eq'],
+          'type': 'float',
+          'description': None
+        },
+        {
+          'multiple': False,
+          'name': 'Heating / Cooling Mode',
+          'values': [
+            {
+              'name': 'Cool',
+              'value': 1,
+              'description': None
+            },
+            {
+              'name': 'Heat',
+              'value': 2,
+              'description': None
+            },
+            {
+              'name': 'Both',
+              'value': 3,
+              'description': None
+            }
+          ],
+          'key': 'hvac_mode',
+          'predicates': ['ne', 'gt', 'eq'],
+          'type': 'dict',
+          'description': None
+        }
+      ],
+      'parameters': {},
+      'description': 'Set temperature on Nest thermostat'
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_ToggleAway',
+    'meta': {
+      'name': 'Toggle Away Status',
+      'outputActionConditions': [],
+      'parameters': {},
+      'description': None
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  },
+  {
+    'action': 'action_getDeviceNetworkInfo',
+    'meta': {
+      'name': 'Get available device network info',
+      'description': None,
+      'outputActionConditions': [],
+      'parameters': {},
+      'outputActionIgnore': True
+    },
+    'parameters': [
+      ['interface', 'Cloud'],
+      ['serial', '02AA01AC371305HK'],
+      ['index', '1'],
+      ['bus', 'NestThermostat'],
+      ['units', 'F'],
+      ['direction', 'both'],
+      ['nestaccount', '43'],
+      ['text_to_speak', '']
+    ],
+    'device_id': 7
+  }
+], 'device_name': 'Nest Thermostat', 'meta': {
+  'name': 'Nest Learning Thermostat',
+  'outputActionConditions': [],
+  'parameters': {},
+  'description': 'Nest v2.0'
+}, 'template_location': 'Cloud/NestThermostat', 'location_group_id': 1, 'location_id': 2, 'location_group_name': 'Home', 'device_id': 7}

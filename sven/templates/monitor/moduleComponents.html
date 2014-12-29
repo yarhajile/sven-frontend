@@ -1,0 +1,14 @@
+{% for parameter in data.modules.parametersAvailable %}
+  {% with "monitor/components/"|add:parameter|add:".html" as template %}
+  {% include template %}
+  {% endwith %}
+{% endfor %}
+
+{% include "monitor/components/actions.html" %}
+
+<script type="text/javascript">
+$( function() {
+  $('#device_progress').setProgressValue({{ data.pctComplete }});
+  $('#percentage_complete_text').html({{ data.pctComplete }});
+} );
+</script>
