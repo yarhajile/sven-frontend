@@ -18,11 +18,14 @@
     $('#weather-inside-temperature').html(data.inside_temperature);
     $('#weather-inside-humidity').html(data.inside_humidity);
 
-    console.log(data);
-    $('#weather-outside-temperature').html(data.outside_temperature);
-    $('#weather-outside-humidity').html(data.outside_humidity);
+    $('#weather-outside-temperature').html(data.outside_weather.now.current_temperature);
+    $('#weather-outside-humidity').html(data.outside_weather.now.current_humidity);
 
     $('#current_temperature').val(data.inside_temperature).trigger('change');
   }
+
+  $(function() {
+    wsw.send(JSON.stringify({ 'action': 'CurrentWeather', 'callback': 'CurrentWeather', 'device_id' : {{data_values.device_id}} }));
+  })
 </script>
 

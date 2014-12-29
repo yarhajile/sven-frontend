@@ -6,11 +6,11 @@ function updateAction(element) {
     'location_id': $('#location_id').val(),
     'parameter': parameter,
     'value': $(element).val(),
-    'moduleListing': {}
+    'module_listing': {}
   }
 
-  if (moduleListing != {}) {
-    requestData['moduleListing'] = JSON.stringify(getModulesForSelectedInterface());
+  if (module_listing != {}) {
+    requestData['module_listing'] = JSON.stringify(getModulesForSelectedInterface());
   }
 
   if ($(element).attr('name') == current_parameter_name && requestData.value == current_parameter_value) {
@@ -50,14 +50,12 @@ function updateAction(element) {
   );
 }
 
-moduleListing = []
-
 $(function () {
   $('body').on('change', 'select[name=input_interface]', function () {
     // load input_bus values
     $('select[name=input_bus]').empty().append('<option selected>Choose a bus</option>');
 
-    $.each(moduleListing[ $(this).val() ]['modules'], function (moduleKey, moduleValue) {
+    $.each(module_listing[$(this).val() ]['modules'], function (moduleKey, moduleValue) {
       $('select[name=input_bus]').append('<option value="' + moduleValue.module + '">' + moduleValue.meta.name + '</option>');
     });
 
@@ -68,7 +66,7 @@ $(function () {
   });
 
   $('body').on('change', 'select[name=input_bus]', function () {
-    $('#bus-components').load('/monitor/ajaxInputMatrix', { 'interface': $('select[name=input_interface]').val(), 'bus': $(this).val(), 'device_id': $('#device_id').val(), 'moduleListing': JSON.stringify(getModulesForSelectedInterface()) });
+    $('#bus-components').load('/monitor/ajaxInputMatrix', { 'interface': $('select[name=input_interface]').val(), 'bus': $(this).val(), 'device_id': $('#device_id').val(), 'module_listing': JSON.stringify(getModulesForSelectedInterface()) });
     $('#bus-selection').show();
   });
 
@@ -93,9 +91,6 @@ $(function () {
   $('body').on('click', '#testDeviceCallback', function () {
     wsw.send(JSON.stringify({ 'action': 'callback', 'device_id': $('#device_id').val() }));
   });
-
-  // Populate list of available interfaces and their modules
-  wsw.send(JSON.stringify({ 'action': 'ModuleListing', 'callback': 'PopulateModuleListing' }));
 });
 
 function getModulesForSelectedInterface() {
@@ -103,9 +98,9 @@ function getModulesForSelectedInterface() {
 
   var interface = $('select[name=input_interface]').val();
 
-  $.each(moduleListing, function (interfaceKey, interfaceValues) {
+  $.each(module_listing, function (interfaceKey, interfaceValues) {
     if (interface == interfaceKey) {
-      $.each(moduleListing[ interface ]['modules'], function (moduleKey, moduleValues) {
+      $.each(module_listing[ interface ]['modules'], function (moduleKey, moduleValues) {
         if (moduleValues.module == $('select[name=input_bus]').val()) {
           moduleDetailsForInterface = moduleValues;
         }

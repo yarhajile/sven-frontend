@@ -156,31 +156,32 @@
 <script src="{% static 'js/monitor/device.js' %}"></script>
 
 <script type="text/javascript">
-  SvenWSCallbacks.PopulateModuleListing = function (data) {
-    moduleListing = data;
+  $(function() {
+    $('.global_module_listing').change( function() {
+      $.each(module_listing, function (key, values) {
+        if (values.modules.length > 0) {
+          $('select[name=input_interface]').append('<option value="' + key + '" ' + ( key == '{{ interface }}' ? 'selected' : '' ) + '>' + key + '</option>');
 
-    $.each(data, function (key, values) {
-      if (values.modules.length > 0) {
-        $('select[name=input_interface]').append('<option value="' + key + '" ' + ( key == '{{ interface }}' ? 'selected' : '' ) + '>' + key + '</option>');
+          if (key == '{{ interface }}') {
+            $.each(values.modules, function (module_key, module_value) {
+              $('select[name=input_bus]').append('<option value="' + module_value.module + '" ' + ( module_value.module == '{{ bus }}' ? 'selected' : '' ) + '>' + module_value.meta.name + '</option>');
+            });
 
-        if (key == '{{ interface }}') {
-          $.each(values.modules, function (module_key, module_value) {
-            $('select[name=input_bus]').append('<option value="' + module_value.module + '" ' + ( module_value.module == '{{ bus }}' ? 'selected' : '' ) + '>' + module_value.meta.name + '</option>');
-          });
+            $('select[name=input_bus]').trigger('silent-change');
 
-          $('select[name=input_bus]').trigger('silent-change');
-
-          $('#bus-selection').show();
+            $('#bus-selection').show();
+          }
         }
-      }
+      });
+
+      $('select[name=input_interface]').trigger('silent-change');
+
+      {% if interface and bus %}
+        $('#bus-components').load('/monitor/ajaxInputMatrix', { 'interface': '{{ interface }}', 'bus': '{{ bus }}', 'device_id': $('#device_id').val(), 'module_listing': JSON.stringify(getModulesForSelectedInterface()) });
+      {% endif %}
     });
+  });
 
-    $('select[name=input_interface]').trigger('silent-change');
-
-    {% if interface and bus %}
-      $('#bus-components').load('/monitor/ajaxInputMatrix', { 'interface': '{{ interface }}', 'bus': '{{ bus }}', 'device_id': $('#device_id').val(), 'module_listing': JSON.stringify(getModulesForSelectedInterface()) });
-    {% endif %}
-  }
 
   {% if pageTemplate %}
     $('#page-template-container').show();

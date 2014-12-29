@@ -416,8 +416,7 @@ def ajaxListLocationGroups(request):
     return render_to_response('monitor/locationGroupList.html', response_data,
                               context_instance = RequestContext(request))
 
-  else:
-    raise Http404
+  raise Http404
 
 
 @csrf_exempt
@@ -473,8 +472,7 @@ def ajaxListLocations(request):
     return render_to_response('monitor/locationList.html', response_data,
                               context_instance = RequestContext(request))
 
-  else:
-    raise Http404
+  raise Http404
 
 
 @csrf_exempt
@@ -561,10 +559,7 @@ def ajaxInputMatrix(request):
 
     return render_to_response('monitor/inputMatrix.html', response_data,
                               context_instance = RequestContext(request))
-
-  else:
-
-    raise Http404
+  raise Http404
 
 
 @csrf_exempt
@@ -595,35 +590,43 @@ def ajaxUpdateDeviceAction(request):
 
   else:
     response_data['success'] = False
-    response_data['message'] = 'Only POST via ajax is supported'
+    response_data['message'] = 'Only POST via ajax is supported.'
 
   return HttpResponse(json.dumps(response_data),
                       content_type = "application/json")
 
 @csrf_exempt
 def ajaxLoadWidgets(request):
-  if request.is_ajax():
-    if request.method == 'POST' and 'data' in request.POST:
+  response_data = svenCommonAjaxData(request)
+  if request.is_ajax() and request.method == 'POST' and 'data' in request.POST:
+    try:
       data = json.loads(request.POST['data'])
-      output = {'data' : {}}
 
       for key, values in data.iteritems():
-        template_location = key.replace('Sven.Module.', '')
-        template_location = template_location.replace('.', '/')
+        interface = key.replace('Sven.Module.', '')
+        interface = interface[:interface.find('.')]
+        bus = values['meta']['module_name']
+
+        template_location = '%s/%s' % (interface, bus)
 
         widget_path = '%s/../../templates/monitor/modules/%s/widget.html' \
           % (os.path.dirname(os.path.realpath(__file__)), template_location)
 
-        if not os.path.isfile(widget_path):
-          continue
+        if os.path.isfile(widget_path):
+          key_new = key.replace('.', '_')
 
-        key_new = key.replace('.', '_')
-
-        output['data'][key_new] = values
-        output['data'][key_new]['template_location'] = '%s' % template_location
+          response_data['data'][key_new] = values
+          response_data['data'][key_new]['template_location'] = '%s' \
+            % template_location
 
       return render_to_response(
         'monitor/modules/widgets.html',
-        output,
+        response_data,
         context_instance = RequestContext(request))
-  raise Http404
+    except Exception as ex:
+      response_data['success'] = False
+      response_data['message'] = ex.args[0]
+
+  else:
+    response_data['success'] = False
+    response_data['message'] = 'Only POST via ajax is supported.'

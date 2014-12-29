@@ -1,0 +1,197 @@
+{'callback': u'setGlobalModuleListing', 'message': u'Running ModuleListing on Sven.Module.System.WebSocketServer.', 'data': {
+  'BeagleboneBlack': {
+    'modules': [
+      {
+        'parameters_available': ['address', 'bouncetime', 'direction', 'edge', 'pud'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Standard GPIO input / output',
+          'parameters': {},
+          'name': 'GPIO Module'
+        },
+        'module': 'GPIO',
+        'parameters_required': ['address', 'bouncetime', 'direction', 'edge', 'pud']
+      },
+      {
+        'parameters_available': ['address', 'pud', 'direction'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Pulse Width Modulation Output',
+          'parameters': {},
+          'name': 'PWM Module'
+        },
+        'module': 'PWM',
+        'parameters_required': ['address', 'pud', 'direction']
+      },
+      {
+        'parameters_available': ['address', 'unitcode', 'direction'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Wireless 433mhz RC devices',
+          'parameters': {},
+          'name': 'Wireless Switches'
+        },
+        'module': 'RCSwitch',
+        'parameters_required': ['address', 'unitcode', 'direction']
+      }
+    ],
+    'interface_meta': {
+      'description': 'Beaglebone Black Rev B',
+      'parameters': {},
+      'name': 'Beaglebone Black'
+    }
+  },
+  'System': {
+    'modules': [
+      {
+        'parameters_available': [],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': None,
+          'parameters': {},
+          'name': 'Alarm System'
+        },
+        'module': 'Alarm',
+        'parameters_required': []
+      },
+      {
+        'parameters_available': [],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Dummy Module Description',
+          'parameters': {},
+          'name': 'Dummy Module Name - BANE ME'
+        },
+        'module': 'Dummy',
+        'parameters_required': []
+      },
+      {
+        'parameters_available': ['espeakvoice', 'espeakrate'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Espeak text to speech processor',
+          'parameters': {},
+          'name': 'Text to speech'
+        },
+        'module': 'Espeak',
+        'parameters_required': []
+      },
+      {
+        'parameters_available': [],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'System wide actions & conditions',
+          'parameters': {},
+          'name': 'Common'
+        },
+        'module': 'JunkDrawer',
+        'parameters_required': []
+      },
+      {
+        'parameters_available': ['player'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Plays files via audio output device',
+          'parameters': {},
+          'name': 'MP3 Player'
+        },
+        'module': 'MP3Player',
+        'parameters_required': ['player']
+      },
+      {
+        'parameters_available': [],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Sends out notifications to peeps in the config',
+          'parameters': {},
+          'name': 'Notification'
+        },
+        'module': 'Notification',
+        'parameters_required': []
+      },
+      {
+        'parameters_available': [],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'System Socket Server',
+          'parameters': {},
+          'name': 'Socket Server'
+        },
+        'module': 'SocketServer',
+        'parameters_required': ['address', 'port']
+      },
+      {
+        'parameters_available': ['address', 'port'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': None,
+          'parameters': {},
+          'name': 'WebSocket Server'
+        },
+        'module': 'WebSocketServer',
+        'parameters_required': ['address', 'port']
+      }
+    ],
+    'interface_meta': {
+      'description': 'This needs to be renamed.',
+      'parameters': {},
+      'name': 'System Interface'
+    }
+  },
+  'Cloud': {
+    'modules': [
+      {
+        'parameters_available': ['username', 'password'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': None,
+          'parameters': {},
+          'name': 'Nest Account'
+        },
+        'module': 'Nest',
+        'parameters_required': ['username', 'password']
+      },
+      {
+        'parameters_available': ['nestaccount', 'serial', 'index'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': None,
+          'parameters': {},
+          'name': 'Nest Protect'
+        },
+        'module': 'NestProtect',
+        'parameters_required': ['nestaccount', 'serial', 'index']
+      },
+      {
+        'parameters_available': ['nestaccount', 'units', 'serial'],
+        'meta': {
+          'outputActionConditions': [],
+          'module_name': 'type',
+          'description': 'Nest v2.0',
+          'parameters': {},
+          'name': 'Nest Learning Thermostat'
+        },
+        'module': 'NestThermostat',
+        'parameters_required': ['nestaccount', 'units', 'serial']
+      }
+    ],
+    'interface_meta': {
+      'description': 'Cloud based devices',
+      'parameters': {},
+      'name': 'Cloud Interface'
+    }
+  }
+}}

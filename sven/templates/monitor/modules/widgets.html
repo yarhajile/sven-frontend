@@ -1,5 +1,5 @@
 {% for data_key, data_values in data.items %}
-  <div class="glow margin-bottom">
+  <div class="glow margin-bottom" style="max-height: 200px; overflow: scroll;">
     {% with "monitor/modules/"|add:data_values.template_location|add:"/widget.html" as template %}
     <h4 class="green with-small-padding underline">{{ data_values.meta.name }}</h4>
     {% include template %}

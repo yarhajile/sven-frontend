@@ -1,21 +1,26 @@
 var output_actions;
+var module_listing = []
+var module_factory_status;
 
 var SvenWSCallbacks = {
   'core': {
     'ArmedStatus': function(data) {
-      console.log(data);
     }
-  },
-  'RCSwitchTriggered': function(data) {
-    $('#eventCounter').html(parseInt($('#eventCounter').html()) + 1);
-    console.info(data);
   },
   'setGlobalOutputActions': function(data) {
     output_actions = data;
-    console.log(data);
+  },
+  'setGlobalModuleListing': function(data) {
+    module_listing = data;
 
-    // Finally, build out our widgets.
-    $('#sven-widgets').load('/monitor/ajaxLoadWidgets', {'data' : JSON.stringify(data)});
+    // There's probably a much more elegant solution for this, but this allows
+    // any page to listen for updates to the websocket callbacks through a
+    // pseudo dummy input field.
+    $('.global_module_listing').change();
+  },
+  'moduleFactoryStatus' : function(data) {
+    module_factory_status = data;
+    $('.module_factory_status').change();
   }
 }
 
@@ -88,5 +93,16 @@ var wsw = new WSWrapper();
 
 
 $(function() {
-    wsw.send(JSON.stringify({ 'action': 'OutputActions', 'callback': 'setGlobalOutputActions' }));
-})
+  wsw.send(JSON.stringify({ 'action': 'OutputActions', 'callback': 'setGlobalOutputActions' }));
+
+  // Populate list of available interfaces and their modules
+  wsw.send(JSON.stringify({ 'action': 'ModuleListing', 'callback': 'setGlobalModuleListing' }));
+
+  // Populate list of available interfaces and their modules
+  wsw.send(JSON.stringify({ 'action': 'ModuleFactoryStatus', 'callback': 'moduleFactoryStatus' }));
+
+  $('.module_factory_status').change(function(){
+    // Finally, build out our widgets.
+    $('#sven-widgets').load('/monitor/ajaxLoadWidgets', {'data' : JSON.stringify(module_factory_status)});
+  });
+});
