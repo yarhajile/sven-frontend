@@ -547,7 +547,7 @@ def ajaxInputMatrix(request):
 
         if 'interface' in request.POST and 'bus' in request.POST:
           response_data['data']['modules'] = module_listing
-          response_data['data']['pctComplete'] = calculatePercentageComplete(
+          response_data['data']['pct_complete'] = calculatePercentageComplete(
             device, module_listing)
           return render_to_response('monitor/moduleComponents.html',
                                     response_data,

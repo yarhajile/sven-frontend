@@ -1,4 +1,4 @@
-{% for parameter in data.modules.parametersAvailable %}
+{% for parameter in data.modules.parameters_available %}
   {% with "monitor/components/"|add:parameter|add:".html" as template %}
   {% include template %}
   {% endwith %}
@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
 $( function() {
-  $('#device_progress').setProgressValue({{ data.pctComplete }});
-  $('#percentage_complete_text').html({{ data.pctComplete }});
+  $('#device_progress').setProgressValue({{ data.pct_complete }});
+  $('#percentage_complete_text').html({{ data.pct_complete }});
 } );
 </script>
