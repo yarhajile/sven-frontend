@@ -77,6 +77,7 @@ def locationGroup(request, id):
 @csrf_exempt
 def location(request, id = 'new'):
   location = None
+
   location_group = Location_Group.objects.get(
     pk = request.session['location_group_id'])
 
@@ -86,6 +87,7 @@ def location(request, id = 'new'):
     #
     request.session['location_id'] = id
     location = Location.objects.get(pk = id)
+#    print location.location_group_id
   elif id != 'new':
     #
     # We can't be here without a location group

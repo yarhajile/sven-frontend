@@ -18,7 +18,7 @@
     $('#weather-inside-temperature').html(Math.round(data.inside_temperature));
     $('#weather-inside-humidity').html(Math.round(data.inside_humidity));
 
-    $('#weather-outside-temperature').html(Math.round(data.outside_weather.now.current_temperature));
+    $('#weather-outside-temperature').html(Math.round((data.outside_weather.now.current_temperature * 2) + 30));
     $('#weather-outside-humidity').html(Math.round(data.outside_weather.now.current_humidity));
 
     $('#current_temperature').val(data.inside_temperature).trigger('change');

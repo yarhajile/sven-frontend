@@ -1,197 +1,308 @@
-{'callback': u'setGlobalModuleListing', 'message': u'Running ModuleListing on Sven.Module.System.WebSocketServer.', 'data': {
-  'BeagleboneBlack': {
-    'modules': [
-      {
-        'parameters_available': ['address', 'bouncetime', 'direction', 'edge', 'pud'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Standard GPIO input / output',
-          'parameters': {},
-          'name': 'GPIO Module'
+{'callback': 'CurrentWeather', 'message': 'Running CurrentWeather on Sven.Module.Cloud.NestThermostat.', 'data': {
+  'inside_temperature': '72',
+  'inside_humidity': 39,
+  'outside_weather': {
+    'display_city': 'Spokane, WA',
+    'city': 'Spokane',
+    'now': {
+      'gmt_offset': '-8.00',
+      'current_humidity': 95,
+      'wind_direction': 'NE',
+      'station_id': 'KWASPOKA44',
+      'current_temperature': -2.7,
+      'current_wind': 0.0,
+      'sunset': 1420416684,
+      'conditions': 'Light Snow',
+      'sunrise': 1420385898,
+      'icon': 'snow'
+    },
+    'forecast': {
+      'hourly': [
+        {
+          'humidity': 100,
+          'temp': 27,
+          'time': 1420423200
         },
-        'module': 'GPIO',
-        'parameters_required': ['address', 'bouncetime', 'direction', 'edge', 'pud']
-      },
-      {
-        'parameters_available': ['address', 'pud', 'direction'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Pulse Width Modulation Output',
-          'parameters': {},
-          'name': 'PWM Module'
+        {
+          'humidity': 100,
+          'temp': 27,
+          'time': 1420426800
         },
-        'module': 'PWM',
-        'parameters_required': ['address', 'pud', 'direction']
-      },
-      {
-        'parameters_available': ['address', 'unitcode', 'direction'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Wireless 433mhz RC devices',
-          'parameters': {},
-          'name': 'Wireless Switches'
+        {
+          'humidity': 100,
+          'temp': 26,
+          'time': 1420430400
         },
-        'module': 'RCSwitch',
-        'parameters_required': ['address', 'unitcode', 'direction']
-      }
-    ],
-    'interface_meta': {
-      'description': 'Beaglebone Black Rev B',
-      'parameters': {},
-      'name': 'Beaglebone Black'
-    }
-  },
-  'System': {
-    'modules': [
-      {
-        'parameters_available': [],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': None,
-          'parameters': {},
-          'name': 'Alarm System'
+        {
+          'humidity': 100,
+          'temp': 27,
+          'time': 1420434000
         },
-        'module': 'Alarm',
-        'parameters_required': []
-      },
-      {
-        'parameters_available': [],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Dummy Module Description',
-          'parameters': {},
-          'name': 'Dummy Module Name - BANE ME'
+        {
+          'humidity': 100,
+          'temp': 28,
+          'time': 1420437600
         },
-        'module': 'Dummy',
-        'parameters_required': []
-      },
-      {
-        'parameters_available': ['espeakvoice', 'espeakrate'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Espeak text to speech processor',
-          'parameters': {},
-          'name': 'Text to speech'
+        {
+          'humidity': 93,
+          'temp': 33,
+          'time': 1420441200
         },
-        'module': 'Espeak',
-        'parameters_required': []
-      },
-      {
-        'parameters_available': [],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'System wide actions & conditions',
-          'parameters': {},
-          'name': 'Common'
+        {
+          'humidity': 95,
+          'temp': 33,
+          'time': 1420444800
         },
-        'module': 'JunkDrawer',
-        'parameters_required': []
-      },
-      {
-        'parameters_available': ['player'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Plays files via audio output device',
-          'parameters': {},
-          'name': 'MP3 Player'
+        {
+          'humidity': 98,
+          'temp': 33,
+          'time': 1420448400
         },
-        'module': 'MP3Player',
-        'parameters_required': ['player']
-      },
-      {
-        'parameters_available': [],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Sends out notifications to peeps in the config',
-          'parameters': {},
-          'name': 'Notification'
+        {
+          'humidity': 99,
+          'temp': 33,
+          'time': 1420452000
         },
-        'module': 'Notification',
-        'parameters_required': []
-      },
-      {
-        'parameters_available': [],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'System Socket Server',
-          'parameters': {},
-          'name': 'Socket Server'
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420455600
         },
-        'module': 'SocketServer',
-        'parameters_required': ['address', 'port']
-      },
-      {
-        'parameters_available': ['address', 'port'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': None,
-          'parameters': {},
-          'name': 'WebSocket Server'
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420459200
         },
-        'module': 'WebSocketServer',
-        'parameters_required': ['address', 'port']
-      }
-    ],
-    'interface_meta': {
-      'description': 'This needs to be renamed.',
-      'parameters': {},
-      'name': 'System Interface'
-    }
-  },
-  'Cloud': {
-    'modules': [
-      {
-        'parameters_available': ['username', 'password'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': None,
-          'parameters': {},
-          'name': 'Nest Account'
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420462800
         },
-        'module': 'Nest',
-        'parameters_required': ['username', 'password']
-      },
-      {
-        'parameters_available': ['nestaccount', 'serial', 'index'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': None,
-          'parameters': {},
-          'name': 'Nest Protect'
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420466400
         },
-        'module': 'NestProtect',
-        'parameters_required': ['nestaccount', 'serial', 'index']
-      },
-      {
-        'parameters_available': ['nestaccount', 'units', 'serial'],
-        'meta': {
-          'outputActionConditions': [],
-          'module_name': 'type',
-          'description': 'Nest v2.0',
-          'parameters': {},
-          'name': 'Nest Learning Thermostat'
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420470000
         },
-        'module': 'NestThermostat',
-        'parameters_required': ['nestaccount', 'units', 'serial']
-      }
-    ],
-    'interface_meta': {
-      'description': 'Cloud based devices',
-      'parameters': {},
-      'name': 'Cloud Interface'
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420473600
+        },
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420477200
+        },
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420480800
+        },
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420484400
+        },
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420488000
+        },
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420491600
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420495200
+        },
+        {
+          'humidity': 99,
+          'temp': 35,
+          'time': 1420498800
+        },
+        {
+          'humidity': 100,
+          'temp': 36,
+          'time': 1420502400
+        },
+        {
+          'humidity': 100,
+          'temp': 36,
+          'time': 1420506000
+        },
+        {
+          'humidity': 99,
+          'temp': 36,
+          'time': 1420509600
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420513200
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420516800
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420520400
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420524000
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420527600
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420531200
+        },
+        {
+          'humidity': 100,
+          'temp': 35,
+          'time': 1420534800
+        },
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420538400
+        },
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420542000
+        },
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420545600
+        },
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420549200
+        },
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420552800
+        },
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420556400
+        },
+        {
+          'humidity': 100,
+          'temp': 32,
+          'time': 1420560000
+        },
+        {
+          'humidity': 100,
+          'temp': 33,
+          'time': 1420563600
+        },
+        {
+          'humidity': 100,
+          'temp': 34,
+          'time': 1420567200
+        },
+        {
+          'humidity': 98,
+          'temp': 35,
+          'time': 1420570800
+        },
+        {
+          'humidity': 96,
+          'temp': 35,
+          'time': 1420574400
+        },
+        {
+          'humidity': 97,
+          'temp': 35,
+          'time': 1420578000
+        },
+        {
+          'humidity': 95,
+          'temp': 35,
+          'time': 1420581600
+        },
+        {
+          'humidity': 97,
+          'temp': 35,
+          'time': 1420585200
+        },
+        {
+          'humidity': 98,
+          'temp': 34,
+          'time': 1420588800
+        },
+        {
+          'humidity': 98,
+          'temp': 34,
+          'time': 1420592400
+        }
+      ],
+      'daily': [
+        {
+          'date': 1420513200,
+          'high_temperature': 36,
+          'conditions': 'Chance of Rain',
+          'low_temperature': 32,
+          'icon': 'chancerain'
+        },
+        {
+          'date': 1420599600,
+          'high_temperature': 35,
+          'conditions': 'Overcast',
+          'low_temperature': 24,
+          'icon': 'cloudy'
+        },
+        {
+          'date': 1420686000,
+          'high_temperature': 33,
+          'conditions': 'Partly Cloudy',
+          'low_temperature': 20,
+          'icon': 'partlycloudy'
+        },
+        {
+          'date': 1420772400,
+          'high_temperature': 34,
+          'conditions': 'Partly Cloudy',
+          'low_temperature': 24,
+          'icon': 'partlycloudy'
+        },
+        {
+          'date': 1420858800,
+          'high_temperature': 31,
+          'conditions': 'Snow Showers',
+          'low_temperature': 27,
+          'icon': 'snow'
+        },
+        {
+          'date': 1420945200,
+          'high_temperature': 34,
+          'conditions': 'Overcast',
+          'low_temperature': 26,
+          'icon': 'cloudy'
+        }
+      ]
     }
   }
 }}
