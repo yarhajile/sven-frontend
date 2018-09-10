@@ -1,0 +1,31 @@
+<div class="columns">
+	<div class="left-column margin-right">
+    Inside Temperature<br/>
+    Inside Humidity<br/><br>
+    Outside Temperature<br/>
+    Outside Humidity
+	</div>
+	<div class="right-column">
+    <span id="weather-inside-temperature">..</span>F<br/>
+    <span id="weather-inside-humidity">..</span>%<br/><br>
+    <span id="weather-outside-temperature">..</span>F<br/>
+    <span id="weather-outside-humidity">..</span>%
+	</div>
+</div>
+
+<script>
+  SvenWSCallbacks.CurrentWeather = function(data) {
+    $('#weather-inside-temperature').html(Math.round(data.inside_temperature));
+    $('#weather-inside-humidity').html(Math.round(data.inside_humidity));
+
+    $('#weather-outside-temperature').html(Math.round((data.outside_weather.now.current_temperature * 2) + 30));
+    $('#weather-outside-humidity').html(Math.round(data.outside_weather.now.current_humidity));
+
+    $('#current_temperature').val(data.inside_temperature).trigger('change');
+  }
+
+  $(function() {
+    wsw.send(JSON.stringify({ 'action': 'CurrentWeather', 'callback': 'CurrentWeather', 'device_id' : {{data_values.device_id}} }));
+  })
+</script>
+

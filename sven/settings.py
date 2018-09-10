@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -21,14 +22,30 @@ SECRET_KEY = 'h-qll9se-6*w7h7%6owg4nv=gp%q67tl^b^sev7p6k*%c#_hx3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+#TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [u'10.0.1.35']
 
 
-TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
-)
+#TEMPLATE_DIRS = (
+#    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+#    os.path.join(BASE_DIR, 'templates')
+#)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(SETTINGS_PATH, 'templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 # Application definition
 
@@ -78,7 +95,7 @@ DATABASES = {
         # The following settings are not used with sqlite3:
         'USER': 'sven',
         'PASSWORD': 'sven',
-        'HOST': '10.10.0.224',                      # Empty for localhost through domain sockets or           '127.0.0.1' for localhost through TCP.
+        'HOST': '10.0.1.35',                      # Empty for localhost through domain sockets or           '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     },
     'sqlite3': {
@@ -151,3 +168,38 @@ PIPELINE_JS = {
 }
 
 PIPELINE_ENABLED = False
+
+
+PIPELINE = {
+    'PIPELINE_ENABLED': True,
+    'JAVASCRIPT': {
+        'core': {
+            'source_filenames': (
+                'js/setup.js',
+                'js/developr.accordions.js',
+                'js/developr.auto-resizing.js',
+                'js/developr.input.js',
+                'js/developr.message.js',
+                'js/developr.modal.js',
+                'js/developr.navigable.js',
+                'js/developr.collapsible.js',
+                'js/developr.notify.js',
+                'js/developr.scroll.js',
+                'js/developr.progress-slider.js',
+                'js/developr.tooltip.js',
+                'js/developr.confirm.js',
+                'js/developr.content-panel.js',
+                'js/developr.agenda.js',
+                'js/developr.table.js',
+                'js/developr.tabs.js',
+                'js/libs/formValidator/languages/jquery.validationEngine-en.js',
+                'js/libs/formValidator/jquery.validationEngine.js',
+                'js/libs/glDatePicker/glDatePicker.min.js',
+                'js/libs/jquery.ba-hashchange.min.js',
+                'js/libs/jquery.tablesorter.min.js',
+                'js/libs/DataTables/jquery.dataTables.min.js',
+            ),
+            'output_filename': 'js/core_combined.js',
+        }
+    }
+}

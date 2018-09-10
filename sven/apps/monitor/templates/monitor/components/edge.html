@@ -1,0 +1,32 @@
+<div class="component_wrapper">
+  <!-- Edge -->
+  <label>
+    <span class="info-spot">
+        <span class="icon-info-round"></span>
+        <span class="info-bubble with-border" style="width: 200px;">
+            Edge info
+        </span>
+    </span>
+
+    Edge Detection
+  </label><br/>
+
+  <span class="button-group margin-bottom">
+    <label for="input_edge_rising"
+           class="button green-active {% if data.parameters.edge == 'rising' %}active{% endif %}">
+    <input type="radio" name="input_edge" id="input_edge_rising"
+           value="rising"
+           {% if data.parameters.edge == 'rising' %}selected{% endif %}>
+      Rising
+    </label>
+
+   <label for="input_edge_falling"
+          class="button green-active {% if data.parameters.edge == 'falling' %}active{% endif %}">
+     <input type="radio" name="input_edge" id="input_edge_falling"
+            value="rising"
+            {% if data.parameters.edge == 'falling' %}selected{% endif %}>
+     Falling
+   </label>
+  </span>
+  <br/><br/>
+</div>

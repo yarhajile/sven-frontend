@@ -1,0 +1,35 @@
+<input type="hidden" name="nest_serial" value="{{ data.parameters.serial }}" />
+
+<div class="component_wrapper">
+  <!-- Serial -->
+  <label class="label">
+    <span class="info-spot">
+      <span class="icon-info-round"></span>
+      <span class="info-bubble with-border" style="width: 200px;">
+        Serial
+      </span>
+    </span>
+
+    Nest Device
+  </label><br />
+
+  <select class="select" name="input_serial" id="input_serial"></select>
+  <br />
+  <br />
+</div>
+
+<script type="text/javascript">
+SvenWSCallbacks.SetNestSerial = function( data ) {
+  $.each( data, function( key, data_value ) {
+    $.each( data_value, function( key, structure ) {
+      $.each( structure.thermostats, function( key, device_value ) {
+        $.each( device_value, function( key, device ) {
+            $( '#input_serial').append( '<option value="' + device.serial_number + '"' + ( device.serial_number == '{{ data.parameters.serial }}' ? ' selected' : '' ) + '>' + device.where + '</option>' );
+        });
+      });
+    });
+  });
+
+  $( '#input_serial').change();
+}
+</script>

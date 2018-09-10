@@ -1,0 +1,38 @@
+<div class="component_wrapper">
+  <!-- Direction -->
+  <label>
+    <span class="info-spot">
+      <span class="icon-info-round"></span>
+      <span class="info-bubble with-border" style="width: 200px;">
+        Device direction info
+      </span>
+    </span>
+    Direction
+  </label><br/>
+
+  <span class="button-group margin-bottom">
+    <label for="input_direction_in"
+           class="button green-active {% if data.parameters.direction == 'in' %}active{% endif %}">
+    <input type="radio" name="input_direction" id="input_direction_in"
+           value="in"
+           {% if data.parameters.direction == 'in' %}selected{% endif %}>
+      In
+    </label>
+    <label for="input_direction_out"
+           class="button green-active {% if data.parameters.direction == 'out' %}active{% endif %}">
+    <input type="radio" name="input_direction" id="input_direction_out"
+           value="out"
+           {% if data.parameters.direction == 'out' %}selected{% endif %}>
+      Out
+    </label>
+    <label for="input_direction_both"
+           class="button green-active {% if data.parameters.direction == 'both' %}active{% endif %}">
+    <input type="radio" name="input_direction" id="input_direction_both"
+           value="both"
+           {% if data.parameters.direction == 'both' %}selected{% endif %}>
+      Both
+    </label>
+  </span>
+
+  <br/><br/>
+</div>

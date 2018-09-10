@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+
+{% block title %}Dashboard index{% endblock %}
+
+{% block content %}
+    <h1>Dashboard index</h1>
+
+    {{  datas }}
+
+    <hr />
+
+    {%  for key, value in datas.items %}
+        {{  key }} :: {{  value }}<hr />
+    {% endfor %}
+{% endblock %}
+
+{% block footer %}
+    Dashboard footer
+{%  endblock %}

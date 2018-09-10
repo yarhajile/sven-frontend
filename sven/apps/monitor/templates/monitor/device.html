@@ -1,0 +1,231 @@
+{% extends "core/base.html" %}
+
+{% block title %}Device Configuration{% endblock %}
+
+{% block heading %}
+  Device Configuration
+  <span class="info-spot">
+    <span class="icon-info-round"></span>
+    <span class="info-bubble with-border" style="width: 200px;">
+      <em><u>Devices</u></em>, Lorem Ipsum.
+    </span>
+  </span>
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="block anthracite-gradient glow clear-both margin-bottom margin-top">
+  <form id="input_form" autocomplete="off">
+  <input type="hidden" name="device_id" id="device_id" value="{{ device.id }}" />
+  <input type="hidden" name="location_id" id="location_id" value="{{ location.id }}" />
+  <input type="hidden" name="percentage_complete" id="percentage_complete" value="{{ pctComplete }}" />
+
+  <h3 class="block-title">
+    <a href="{{ base_url }}{% url 'monitor:locationGroup' location_group.id %}">{{ location_group.name }}</a> &raquo; <a href="{{ base_url }}{% url 'monitor:location' location.id %}">{{ location.name }}</a> &raquo; <span id="device_name">{{ device.name }}</span>
+
+  <div class="button-group absolute-right">
+    <!-- Active -->
+    <span class="button-group margin-left">
+      <label for="active-yes" class="button green-active {% if device.active == True %} active{% endif %}">
+        <input type="radio" name="input_active" id="active-yes" value="1" {% if device.active == True %}checked{% endif %}>
+        Active
+      </label>
+      <label for="active-no" class="button red-active {% if device.active == False %} active{% endif %}">
+        <input type="radio" name="input_active" id="active-no" value="0" {% if device.active == False %}checked{% endif %}>
+        Inactive
+      </label>
+    </span>
+
+    <a href="#" class="button icon-pencil" id="edit-device-button">Edit</a>
+    <a href="#" class="button icon-eye with-tooltip" id="view-history-button" title="History"></a>
+    <a href="#" class="button icon-trash with-tooltip confirm" title="Delete"></a>
+  </div>
+  </h3>
+
+  <div class="with-padding device-content-container" id="page-template-container" style="display: none;">
+  {% if pageTemplate %}
+      {% include pageTemplate %}
+  {% endif %}
+  </div>
+
+  <div class="with-padding device-content-container" id="history-container" style="display: none;">
+      History
+  {{ history }}
+  </div>
+
+  <div class="with-padding device-content-container" style="display: none;" id="edit-device-container">
+    <!-- Progress meter -->
+    <div class="block with-padding large-margin-bottom">
+      <h4>
+        <span class="info-spot">
+          <span class="icon-info-round"></span>
+          <span class="info-bubble with-border" style="width: 200px;">
+            When all parameters have been set successfully, this will be 100%
+          </span>
+        </span>
+        Completion progress - <span id="percentage_complete_text">{{ pctComplete }}</span>%
+      </h4>
+
+      <span id="device_progress" class="margin-top margin-bottom"></span>
+    </div>
+
+    <!-- Name -->
+    <label class="label">
+      <span class="info-spot">
+        <span class="icon-info-round"></span>
+        <span class="info-bubble with-border" style="width: 200px;">
+          Friendly name identifier
+        </span>
+      </span>
+      Name
+    </label><br />
+    <input id="input_name" name="input_name" class="validate[required] input full-width margin-bottom" type="text" placeholder="Name" value="{{ device.name }}" />
+    <br />
+
+    <!-- Description -->
+    <label class="label">
+      <span class="info-spot">
+        <span class="icon-info-round"></span>
+        <span class="info-bubble with-border" style="width: 200px;">
+          Description
+        </span>
+      </span>
+      Description
+    </label>
+
+    <textarea id="input_description" name="input_description" class="validate[required] input full-width margin-bottom" placeholder="Description">{{ device.description }}</textarea>
+    <br />
+
+    <!-- Interface -->
+    <label>
+      <span class="info-spot">
+        <span class="icon-info-round"></span>
+        <span class="info-bubble with-border" style="width: 200px;">
+          Interface type info
+        </span>
+      </span>
+      Interface
+    </label><br />
+
+    <select class="select check-list" name="input_interface">
+      {% if not interface %}
+      <option>Choose an interface</option>
+      {% endif %}
+    </select>
+
+    <br /><br />
+    <div id="bus-selection" class="margin-bottom" style="display: none">
+      <!-- Bus -->
+      <label>
+        <span class="info-spot">
+          <span class="icon-info-round"></span>
+          <span class="info-bubble with-border" style="width: 200px;">
+            Bus type info
+          </span>
+        </span>
+        Bus
+      </label><br />
+
+      <select class="select check-list" name="input_bus">
+        {% if not bus %}
+        <option selected>Choose a bus</option>
+        {% endif %}
+      </select>
+    </div>
+    <div id="bus-components"></div>
+  </div>
+
+  <div class="with-padding">
+    <br />
+    <a id="testDeviceCallback" class="button margin-right">
+      <span class="button-icon green-gradient glossy"><span class="icon-star"></span></span>
+      Test
+    </a>
+
+    <a href="{{ base_url }}{% url 'monitor:location' location.id %}" class="button margin-right edit_location_save">
+      <span class="button-icon blue-gradient glossy"><span class="icon-like"></span></span>
+      Finished
+    </a>
+  </div>
+  </form>
+</div>
+
+<script src="{% static 'js/monitor/common.js' %}"></script>
+<script src="{% static 'js/monitor/device.js' %}"></script>
+
+<script type="text/javascript">
+  $(function() {
+    $('.global_module_listing').change( function() {
+      $.each(module_listing, function (key, values) {
+        if (values.modules.length > 0) {
+          $('select[name=input_interface]').append('<option value="' + key + '" ' + ( key == '{{ interface }}' ? 'selected' : '' ) + '>' + key + '</option>');
+
+          if (key == '{{ interface }}') {
+            $.each(values.modules, function (module_key, module_value) {
+              $('select[name=input_bus]').append('<option value="' + module_value.module + '" ' + ( module_value.module == '{{ bus }}' ? 'selected' : '' ) + '>' + module_value.meta.name + '</option>');
+            });
+
+            $('select[name=input_bus]').trigger('silent-change');
+
+            $('#bus-selection').show();
+          }
+        }
+      });
+
+      $('select[name=input_interface]').trigger('silent-change');
+
+      {% if interface and bus %}
+        $('#bus-components').load('/monitor/ajaxInputMatrix', { 'interface': '{{ interface }}', 'bus': '{{ bus }}', 'device_id': $('#device_id').val(), 'module_listing': JSON.stringify(getModulesForSelectedInterface()) });
+      {% endif %}
+    });
+  });
+
+
+  {% if pageTemplate %}
+    $('#page-template-container').show();
+  {% else %}
+    $('#edit-device-container').show();
+  {% endif %}
+
+  $('#edit-device-button').click(function () {
+    $('.device-content-container').hide();
+
+    if ($(this).hasClass('active')) {
+      $(this).removeClass('blue-active active');
+      {% if pageTemplate %}
+        $('#page-template-container').show();
+      {% else %}
+        $('#history-container').show();
+      {% endif %}
+    }
+    else {
+      $('#view-history-button').removeClass('blue-active active');
+      $(this).addClass('blue-active active');
+      $('#edit-device-container').show();
+    }
+  });
+
+  $('#view-history-button').click(function () {
+
+    if ($(this).hasClass('active')) {
+      $(this).removeClass('active blue-active');
+
+      {% if pageTemplate %}
+        $('.device-content-container').hide();
+        $('#page-template-container').show();
+      {% endif %}
+    }
+    else {
+      $('#edit-device-button').removeClass('blue-active active');
+      $('.device-content-container').hide();
+      $(this).addClass('active blue-active');
+      $('#history-container').show();
+    }
+  });
+</script>
+
+{% endblock %}
+
+{% block footer %}{%  endblock %}

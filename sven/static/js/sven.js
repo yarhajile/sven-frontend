@@ -26,7 +26,7 @@ var SvenWSCallbacks = {
 
 function WSWrapper() {
   if ("WebSocket" in window) {
-    var ws = new WebSocket("ws://10.10.0.224:7654/");
+    var ws = new WebSocket("ws://10.0.1.35:7654/");
     var self = this;
 
     ws.onopen = function () {

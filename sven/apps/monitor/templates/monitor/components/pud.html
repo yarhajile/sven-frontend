@@ -1,0 +1,31 @@
+<div class="component_wrapper">
+  <!-- PUD -->
+  <label>
+    <span class="info-spot">
+      <span class="icon-info-round"></span>
+      <span class="info-bubble with-border" style="width: 200px;">
+        Device PUD info
+      </span>
+    </span>
+
+    Pull-Up / Pull-Down Resistor State
+  </label><br />
+
+  <span class="button-group margin-bottom">
+    <label for="input_pud_up" class="button green-active {% if data.parameters.pud == 'up' %}active{% endif %}">
+      <input type="radio" name="input_pud" id="input_pud_up" value="up" {% if data.parameters.pud == 'up' %}selected{% endif %}>
+      Pull Up
+    </label>
+
+    <label for="input_pud_down" class="button green-active {% if data.parameters.pud == 'down' %}active{% endif %}">
+      <input type="radio" name="input_pud" id="input_pud_down" value="down" {% if data.parameters.pud == 'down' %}selected{% endif %}>
+      Pull Down
+    </label>
+
+    <label for="input_pud_off" class="button green-active {% if data.parameters.pud == 'off' %}active{% endif %}">
+      <input type="radio" name="input_pud" id="input_pud_off" value="off" {% if data.parameters.pud == 'off' %}selected{% endif %}>
+      Off
+    </label>
+  </span>
+  <br /><br />
+</div>

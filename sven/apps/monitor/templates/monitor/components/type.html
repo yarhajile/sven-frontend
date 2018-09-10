@@ -1,0 +1,27 @@
+<div class="component_wrapper">
+  <!-- Type -->
+  <label>
+      <span class="info-spot">
+          <span class="icon-info-round"></span>
+          <span class="info-bubble with-border" style="width: 200px;">
+              Device type info
+          </span>
+      </span>
+      Type
+  </label><br />
+
+  <span class="button-group margin-bottom">
+    {% for object in data.types %}
+      {% if object.value == data.device.parameters.type %}
+    <label for="input_type_{{ object.id }}" class="button green-active active">
+      <input type="radio" name="input_type" id="input_type_{{ object.id }}" value="{{ object.value }}" selected>
+      {% else %}
+    <label for="input_type_{{ object.id }}" class="button green-active">
+      <input type="radio" name="input_type" id="input_type_{{ object.id }}" value="{{ object.value }}">
+      {% endif %}
+    {{ object.value.capitalize }}
+    </label>
+    {% endfor %}
+  </span>
+  <br /><br />
+</div>
