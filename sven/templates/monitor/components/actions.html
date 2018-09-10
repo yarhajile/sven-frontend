@@ -252,20 +252,26 @@ $(function () {
 
       var predicate_select_text = $(this).parent().find('.predicate option:selected').text();
       var predicate_select_value = $(this).parent().find('.predicate option:selected').val();
+
       var appendString = '<p class="message"><a href="#" title="Hide message" class="close">✕</a>' + predicate_text + ' ' + predicate_select_text + ' ' + condition_value + '</p>';
 
       $(this).closest('.condition-parent').children().find('.conditions-for-action').append(appendString);
       // Parse existing conditions. Append new conditions
-      var existingConditions = $.parseJSON($('input.output-device-actions[device_id=' + $(this).attr('device_id') + ']').attr('conditions'));
+      var existing_conditions = $.parseJSON($('input.output-device-actions[device_id=' + $(this).attr('device_id') + ']').attr('conditions'));
 
-      existingConditions.push({
+      existing_conditions.push({
         'device_id': condition_device_id,
         'key': condition_key,
         'value': condition_value,
         'predicate': predicate_select_value
       });
 
-      $('input.output-device-actions[device_id=' + $(this).attr('device_id') + ']').attr('conditions', JSON.stringify(existingConditions));
+      /**
+       * This all works for adding conditions to the monitor_input_device_callback_action table.  Now we just
+       * need to support display / removal of existing as well as tying this table into the daemon process.
+       */
+
+      $('input.output-device-actions[device_id=' + $(this).attr('device_id') + ']').attr('conditions', JSON.stringify(existing_conditions));
       // @todo Add new ajax action for updating conditions instead of bull-dozing the entire device.
       updateDeviceAction();
     }

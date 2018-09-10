@@ -1,29 +1,28 @@
-function updateAction( element )
-{
+function updateAction(element) {
     return false;
 }
 
 $( function( ) {
-    $( '#table_data_container').load( '/monitor/ajaxListLocationGroups' );
+    $('#table_data_container').load('/monitor/ajaxListLocationGroups');
 
     /*
      * Add new location group" button action
      */
-    $( '#new_location_group_add').on( 'click', function() {
-        $( '#new_location_group_input').show( 300 );
-        $( this).hide( 300 );
+    $('#new_location_group_add').on('click', function() {
+        $('#new_location_group_input').show(300);
+        $(this).hide( 300 );
         return false;
-    } );
+    });
 
 
     /*
      * Close / Cancel the add new location group window
      */
-    $( '#new_location_group_cancel, #new_location_group_input > .close').on( 'click', function( ) {
-        $( '#new_location_group_add').show( 300 );
-        $( '#new_location_group_input' ).hide( 300 );
+    $('#new_location_group_cancel, #new_location_group_input > .close').on('click', function( ) {
+        $('#new_location_group_add').show(300);
+        $('#new_location_group_input' ).hide(300);
         return false;
-    } );
+    });
 
 
     /*

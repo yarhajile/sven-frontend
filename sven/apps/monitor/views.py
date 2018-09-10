@@ -265,7 +265,7 @@ def ajaxUpdateLocation(request):
         location = Location(name = request.POST.get('name', ''),
                             description = request.POST.get('description', ''),
                             active = request.POST.get('active', 1),
-                            location_group = locationGroup)
+                            location_group = location_group)
         location.save()
 
       #
@@ -632,3 +632,6 @@ def ajaxLoadWidgets(request):
   else:
     response_data['success'] = False
     response_data['message'] = 'Only POST via ajax is supported.'
+
+  return HttpResponse(json.dumps(response_data),
+                      content_type = "application/json")

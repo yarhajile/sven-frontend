@@ -237,15 +237,15 @@
         <li class="with-right-arrow">
           <span><span class="list-count">1</span>Monitor Configuration</span>
           <ul class="big-menu">
-            {% for locationGroup in menu_items %}
+            {% for location_group in menu_items %}
               <li class="with-right-arrow">
                 <span>
-                  <span class="list-count">{{ locationGroup.location_set.count }}</span>
-                  <a href="{{ base_url }}{% url 'monitor:locationGroup' locationGroup.id %}"
-                     class="button margin-right">edit</a>{{ locationGroup.name }}
+                  <span class="list-count">{{ location_group.location_set.count }}</span>
+                  <a href="{{ base_url }}{% url 'monitor:locationGroup' location_group.id %}"
+                     class="button margin-right">edit</a>{{ location_group.name }}
                 </span>
                 <ul class="big-menu">
-                  {% for location in locationGroup.location_set.all %}
+                  {% for location in location_group.location_set.all %}
                     <li class="with-right-arrow">
                       <span>
                         <span class="list-count">{{ location.location_device_set.count }}</span>
